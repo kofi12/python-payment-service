@@ -1,0 +1,7 @@
+  Username:    postgres
+  Password:    oqCCXC7S1GqzCmf
+  Hostname:    python-payment-service.internal
+  Flycast:     fdaa:8:7174:0:1::2
+  Proxy port:  5432
+  Postgres port:  5433
+  Connection string: postgres://postgres:oqCCXC7S1GqzCmf@python-payment-service.flycast:5432
