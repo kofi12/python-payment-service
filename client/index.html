@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Page</title>
+</head>
+<body>
+  <h1>Payment Page</h1>
+
+  <!-- Input field for entering the price -->
+  <div>
+    <label for="price">Enter Price:</label>
+    <input type="number" id="price" name="price" step="0.01" min="0.01" placeholder="Enter price" required>
+  </div>
+  
+  <!-- Button to initiate payment -->
+  <button id="payNowButton">Pay Now</button>
+
+  <script>
+    // Function to handle payment
+    function handlePayment() {
+      // Get the value of the price input field
+      const price = document.getElementById('price').value;
+
+      // Make an AJAX request to the API route
+      fetch('http://localhost:8000/api/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          price: parseFloat(price)
+          // Include any additional data you need to send to the API
+        })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        // Parse response JSON
+        return response.json();
+      })
+      .then(data => {
+        // Check if response contains a redirect URL
+        console.log(data)
+        if (data.session_url) {
+          // Redirect the user to the URL returned in the response
+          window.location.href = data.session_url;
+        } else {
+          // Handle other responses (if needed)
+          console.log('Payment successful');
+          // You can perform any additional actions here after successful payment
+        }
+      })
+      .catch(error => {
+        // Handle errors
+        console.error('Error during payment:', error.message);
+        // You can perform any error handling here
+      });
+    }
+
+    // Attach click event listener to the button
+    document.getElementById('payNowButton').addEventListener('click', handlePayment);
+  </script>
+</body>
+</html>
