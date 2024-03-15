@@ -4,6 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["kofi12 <kofi12@my.yorku.ca>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -20,5 +21,3 @@ jinja2 = "^3.1.3"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-package-mode = false
