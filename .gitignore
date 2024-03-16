@@ -1,8 +1,8 @@
 # created by virtualenv automatically
-/.venv
-/__pycache__
-/.vscode
-/routes/__pycache__/
+.venv
+__pycache__
+.vscode
+routes/__pycache__/
 
 
 .env
