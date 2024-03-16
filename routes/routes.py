@@ -72,7 +72,7 @@ def create_account() -> stripe.Account:
         return stripe_account
     except Exception as e:
         print(e)
-        return 'Error creating stripe account'
+        raise e
     
 def generate_accountLink(stripe_account: stripe.Account) -> stripe.AccountLink:
     try:
@@ -86,5 +86,5 @@ def generate_accountLink(stripe_account: stripe.Account) -> stripe.AccountLink:
         return account_link
     except Exception as e:
         print(e)
-        return 'Error creating account link'
+        raise e
 
