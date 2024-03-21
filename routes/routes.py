@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from fastapi.responses import RedirectResponse
 from models import models
 from sqlmodel import SQLModel
@@ -13,19 +13,17 @@ stripe.api_version = "2023-10-16"
 router = APIRouter(prefix = "/api")
 
 @router.post("/create-checkout-session")
-async def create_checkout():
+async def create_checkout(request: Request):
     try:
-        print("Creating price")
+        price_from_html = await request.json()
         price : stripe.Price = stripe.Price.create(
             currency = "cad",
-            unit_amount = 20 * 100,
+            unit_amount = price_from_html['price'] * 100,
             product_data = {
                 'name': "my special product"
             },
             stripe_account = "acct_1OuV7JCZDWrvI6w3"
         )
-        print("Price created")
-        print("Creating session")
         session = stripe.checkout.Session.create(
             line_items = [
                 {
@@ -37,7 +35,6 @@ async def create_checkout():
             success_url = 'http://localhost:8000',
             stripe_account = "acct_1OuV7JCZDWrvI6w3"
         )
-        print("Session created")
         return {"session_url": session.url}
     except Exception as e:
         print("Exception caught")
