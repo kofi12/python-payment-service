@@ -3,7 +3,8 @@
 __pycache__
 .vscode
 routes/__pycache__/
-
+migrations
 
 .env
 data.txt
+
