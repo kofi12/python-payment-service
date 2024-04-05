@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import RedirectResponse
 from models import models
-from sqlmodel import SQLModel
+from sqlmodel import SQLModel, Session, create_engine
 from dotenv import find_dotenv, load_dotenv
 import stripe
 import os
@@ -9,6 +9,9 @@ import os
 load_dotenv(find_dotenv())
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 stripe.api_version = "2023-10-16"
+DATABASE_URL = os.getenv('DATABASE_URL', '')
+
+engine = create_engine(DATABASE_URL)
 
 router = APIRouter(prefix = "/api")
 
@@ -66,6 +69,12 @@ def create_account() -> stripe.Account:
             country = 'CA',
             capabilities = {"card_payments": {"requested": True}, "transfers": {"requested": True}}
             )
+        # Add the stripe connected account to the database
+        account = models.Seller(seller_id=stripe_account.id)
+        session = Session(engine)
+        session.add(account)
+        session.commit()
+        session.close()
         return stripe_account
     except Exception as e:
         print(e)
@@ -85,3 +94,13 @@ def generate_accountLink(stripe_account: stripe.Account) -> stripe.AccountLink:
         print(e)
         raise e
 
+def cerate_price(price, stripe_account : stripe.Account, product_name: str) -> stripe.Price:
+    stripe_price = stripe.Price.create(
+            currency = "cad",
+            unit_amount = price['price'] * 100,
+            product_data = {
+                'name': product_name
+            },
+            stripe_account = stripe_account.id
+    )
+    return stripe_price
