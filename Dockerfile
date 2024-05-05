@@ -7,13 +7,15 @@ ENV POETRY_NO_INTERACTION=1 \
     POETRY_VIRTUALENVS_CREATE=1 \
     POETRY_CACHE_DIR=/tmp/poetry_cache
 
-WORKDIR /python_payment_service
+WORKDIR /app
 
 COPY pyproject.toml poetry.lock ./
-COPY python_payment_service ./python_payment_service
-
 RUN touch README.md
 
 RUN poetry install --without dev --no-root && rm -rf $POETRY_CACHE_DIR
+
+COPY . .
+
+RUN poetry install --without dev
 
 ENTRYPOINT ["poetry", "run", "uvicorn", "main:app", "--reload"]
