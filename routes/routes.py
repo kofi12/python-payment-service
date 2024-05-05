@@ -62,6 +62,7 @@ def init_connected_account():
     except Exception as e:
         return 'Error onboarding seller'
         
+# stripe account creation helper function
 def create_account() -> stripe.Account:
     try:
         stripe_account: stripe.Account = stripe.Account.create(
@@ -80,6 +81,7 @@ def create_account() -> stripe.Account:
         print(e)
         raise e
     
+# stripe accountlink creation helper function
 def generate_accountLink(stripe_account: stripe.Account) -> stripe.AccountLink:
     try:
         account_link = stripe.AccountLink.create(
@@ -93,14 +95,3 @@ def generate_accountLink(stripe_account: stripe.Account) -> stripe.AccountLink:
     except Exception as e:
         print(e)
         raise e
-
-def cerate_price(price, stripe_account : stripe.Account, product_name: str) -> stripe.Price:
-    stripe_price = stripe.Price.create(
-            currency = "cad",
-            unit_amount = price['price'] * 100,
-            product_data = {
-                'name': product_name
-            },
-            stripe_account = stripe_account.id
-    )
-    return stripe_price
