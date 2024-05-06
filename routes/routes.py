@@ -17,6 +17,9 @@ router = APIRouter(prefix = "/api")
 
 @router.post("/create-checkout-session")
 async def create_checkout(request: Request):
+    # need to pull seller account info from catalogue item in the request body or session object
+    # I then need to match the sellers account with the corresponding stripe_id in my database
+    # Then I use that stripe_id in the corresponding stripe methods
     try:
         price_from_html = await request.json()
         price : stripe.Price = stripe.Price.create(
