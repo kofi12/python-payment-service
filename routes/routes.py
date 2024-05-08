@@ -38,7 +38,8 @@ async def create_checkout(request: Request):
                 },
             ],
             mode = 'payment',
-            success_url = 'http://localhost:8000',
+            success_url = 'http://localhost:3000/success',
+            cancel_url = 'http://localhost:3000/cancel',
             stripe_account = "acct_1OuV7JCZDWrvI6w3"
         )
         return {"session_url": session.url}
