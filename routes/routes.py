@@ -17,16 +17,13 @@ router = APIRouter(prefix = "/api")
 
 @router.post("/create-checkout-session")
 async def create_checkout(request: Request):
-    # need to pull seller account info from catalogue item in the request body or session object
-    # I then need to match the sellers account with the corresponding stripe_id in my database
-    # Then I use that stripe_id in the corresponding stripe methods
     try:
-        price_from_html = await request.json()
+        data = await request.json()
         price : stripe.Price = stripe.Price.create(
             currency = "cad",
-            unit_amount = price_from_html['price'] * 100,
+            unit_amount = data['price'] * 100,
             product_data = {
-                'name': "my special product"
+                'name': data['item_name']
             },
             stripe_account = "acct_1OuV7JCZDWrvI6w3"
         )
@@ -92,7 +89,7 @@ def generate_accountLink(stripe_account: stripe.Account) -> stripe.AccountLink:
             type = 'account_onboarding',
             account = stripe_account.id,
             refresh_url= 'http://localhost:8000/api/refresh',
-            return_url = 'http://localhost:8000/api/return',
+            return_url = 'http://localhost:3000/catalogue',
         )
 
         return account_link
