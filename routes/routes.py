@@ -35,7 +35,8 @@ async def create_checkout(request: Request):
                 },
             ],
             mode = 'payment',
-            success_url = 'http://localhost:3000/success',
+            success_url = 'http://localhost:8000',
+            cancel_url = 'http://localhost:8000',
             stripe_account = "acct_1OuV7JCZDWrvI6w3"
         )
         return {"session_url": session.url}
@@ -88,7 +89,7 @@ def generate_accountLink(stripe_account: stripe.Account) -> stripe.AccountLink:
             type = 'account_onboarding',
             account = stripe_account.id,
             refresh_url= 'http://localhost:8000/api/refresh',
-            return_url = 'http://localhost:8000/api/return',
+            return_url = 'http://localhost:3000/catalogue',
         )
 
         return account_link
