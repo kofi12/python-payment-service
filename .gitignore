@@ -5,6 +5,5 @@ __pycache__
 routes/__pycache__/
 migrations
 
-.env
 data.txt
 
