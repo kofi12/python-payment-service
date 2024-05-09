@@ -27,7 +27,8 @@
       fetch('http://localhost:8000/api/create-checkout-session', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify({
           price: parseFloat(price)

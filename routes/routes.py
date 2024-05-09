@@ -23,7 +23,7 @@ async def create_checkout(request: Request):
             currency = "cad",
             unit_amount = data['price'] * 100,
             product_data = {
-                'name': data['item_name']
+                'name': 'fancy product'
             },
             stripe_account = "acct_1OuV7JCZDWrvI6w3"
         )
@@ -35,8 +35,8 @@ async def create_checkout(request: Request):
                 },
             ],
             mode = 'payment',
-            success_url = 'http://localhost:3000/success',
-            cancel_url = 'http://localhost:3000/cancel',
+            success_url = 'http://localhost:8000',
+            cancel_url = 'http://localhost:8000',
             stripe_account = "acct_1OuV7JCZDWrvI6w3"
         )
         return {"session_url": session.url}
