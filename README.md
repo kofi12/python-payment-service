@@ -1,6 +1,6 @@
 ## How to run the service/test
 
-### Docker Container
+### Docker Container (RECOMMENDED)
 
 - this service is dockarized and pushed to docker hub
 - you can run this container with the following command in terminal provided you've downloaded the docker CLI
@@ -18,6 +18,7 @@
 - run the command `poetry shell` this should create a virtualenvironment
 - run the command `poetry install` poetry will install dependencies in the pyproject.toml file
 - now that the dependencies are installed you can run the service with the command `poetry run uvicorn main:app --reload`
+- MAY NOT RUN PROPERLY DUE TO .ENV file not being included
 
 
 ### Test cases
