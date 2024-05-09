@@ -18,12 +18,12 @@ router = APIRouter(prefix = "/api")
 @router.post("/create-checkout-session")
 async def create_checkout(request: Request):
     try:
-        price_from_html = await request.json()
+        data = await request.json()
         price : stripe.Price = stripe.Price.create(
             currency = "cad",
-            unit_amount = price_from_html['price'] * 100,
+            unit_amount = data['price'] * 100,
             product_data = {
-                'name': "my special product"
+                'name': 'fancy product'
             },
             stripe_account = "acct_1OuV7JCZDWrvI6w3"
         )
@@ -35,7 +35,7 @@ async def create_checkout(request: Request):
                 },
             ],
             mode = 'payment',
-            success_url = 'http://localhost:8000',
+            success_url = 'http://localhost:3000/success',
             stripe_account = "acct_1OuV7JCZDWrvI6w3"
         )
         return {"session_url": session.url}
